@@ -1,0 +1,42 @@
+{
+  "name": "com.firebase.webgl",
+  "version": "1.0.0",
+  "displayName": "Firebase REST API for Unity WebGL",
+  "description": "A comprehensive C# wrapper for Google Firebase REST APIs, specifically designed for Unity WebGL builds. Provides direct REST API access without requiring JavaScript SDK communication.",
+  "unity": "2020.3",
+  "unityRelease": "0f1",
+  "dependencies": {},
+  "keywords": [
+    "firebase",
+    "webgl",
+    "rest",
+    "api",
+    "auth",
+    "database",
+    "firestore",
+    "storage",
+    "messaging"
+  ],
+  "author": {
+    "name": "Firebase WebGL Team",
+    "email": "support@firebase-webgl.com",
+    "url": "https://github.com/your-repo/firebase-unity-webgl"
+  },
+  "type": "library",
+  "hideInEditor": false,
+  "testables": [
+    "com.firebase.webgl"
+  ],
+  "samples": [
+    {
+      "displayName": "Basic Authentication Example",
+      "description": "Example showing basic Firebase authentication workflows",
+      "path": "Samples~/AuthenticationExample"
+    },
+    {
+      "displayName": "Database Operations Example", 
+      "description": "Example showing Firebase Realtime Database operations",
+      "path": "Samples~/DatabaseExample"
+    }
+  ]
+}

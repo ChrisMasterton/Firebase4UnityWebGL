@@ -82,6 +82,10 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+/[Ll]ibrary/
+/[Ll]ogs/
+/[Oo]bj/
+
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 

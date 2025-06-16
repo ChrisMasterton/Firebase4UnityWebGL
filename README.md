@@ -13,9 +13,18 @@ A comprehensive C# wrapper for Google Firebase REST APIs, specifically designed 
 
 ## Installation
 
-1. Copy the `Firebase` folder into your Unity project's `Assets` directory
-2. Add the required using statements to your scripts
-3. Configure your Firebase project settings
+### Unity Package Manager (Recommended)
+1. Open Unity Package Manager (`Window > Package Manager`)
+2. Click `+` and select `Add package from disk...`
+3. Select the `package.json` file from this repository
+4. Unity will automatically import the package and tests
+
+### Manual Installation
+1. Copy the `Runtime` folder contents to `Assets/Firebase/` in your Unity project
+2. Optionally copy the `Tests` folder to `Assets/Tests/` for testing capabilities
+3. Unity will automatically detect and compile the assembly definitions
+
+See [UNITY_INTEGRATION.md](UNITY_INTEGRATION.md) for detailed integration instructions.
 
 ## Quick Start
 

@@ -10,6 +10,7 @@ namespace Firebase.Core
     public class FirebaseAuth
     {
         private readonly FirebaseConfig config;
+        private readonly IHttpClient httpClient;
         private FirebaseUser currentUser;
         private string idToken;
         private string refreshToken;
@@ -20,9 +21,10 @@ namespace Firebase.Core
         
         public event Action<FirebaseUser> StateChanged;
         
-        public FirebaseAuth(FirebaseConfig config)
+        public FirebaseAuth(FirebaseConfig config, IHttpClient httpClient = null)
         {
             this.config = config ?? throw new ArgumentNullException(nameof(config));
+            this.httpClient = httpClient ?? new UnityHttpClient();
         }
         
         public async Task<FirebaseUser> SignInWithEmailAndPasswordAsync(string email, string password)
@@ -153,28 +155,53 @@ namespace Firebase.Core
             var url = $"{baseUrl}/{endpoint}?key={config.ApiKey}";
             
             var json = FirebaseUtils.ToJson(request);
-            using var webRequest = FirebaseUtils.CreateRequest(url, "POST", json);
+            var response = await httpClient.SendRequestAsync(url, "POST", json);
             
-            await SendWebRequestAsync(webRequest);
-            
-            var exception = FirebaseUtils.HandleError(webRequest);
-            if (exception != null)
+            if (!response.IsSuccess)
+            {
+                var exception = CreateFirebaseException(response);
                 throw exception;
+            }
                 
             if (typeof(TResponse) == typeof(object))
                 return default;
                 
-            return FirebaseUtils.FromJson<TResponse>(webRequest.downloadHandler.text);
+            return FirebaseUtils.FromJson<TResponse>(response.Text);
         }
         
-        private async Task SendWebRequestAsync(UnityWebRequest request)
+        private FirebaseException CreateFirebaseException(HttpResponse response)
         {
-            var operation = request.SendWebRequest();
+            var errorMessage = "Unknown error";
+            var errorCode = "unknown";
             
-            while (!operation.isDone)
+            if (!string.IsNullOrEmpty(response.Text))
             {
-                await Task.Yield();
+                try
+                {
+                    var errorResponse = FirebaseUtils.FromJson<FirebaseErrorResponse>(response.Text);
+                    if (errorResponse?.error != null)
+                    {
+                        errorMessage = errorResponse.error.message ?? errorMessage;
+                        errorCode = errorResponse.error.code?.ToString() ?? errorCode;
+                    }
+                }
+                catch
+                {
+                    errorMessage = response.Text;
+                }
             }
+            else if (response.ResponseCode == 0)
+            {
+                errorMessage = "Connection error";
+                errorCode = "connection_error";
+            }
+            else if (response.ResponseCode >= 400)
+            {
+                errorMessage = $"HTTP Error {response.ResponseCode}";
+                errorCode = $"http_{response.ResponseCode}";
+            }
+            
+            return new FirebaseException(errorCode, errorMessage);
         }
     }
     
