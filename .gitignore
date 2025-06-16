@@ -66,6 +66,9 @@ ExportedObj/
 *.pdb.meta
 *.mdb.meta
 
+# Unity Package: Exclude all .meta files for this package
+*.meta
+
 # Unity3D generated file on crash reports
 sysinfo.txt
 
