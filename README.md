@@ -24,7 +24,6 @@ A comprehensive C# wrapper for Google Firebase REST APIs, specifically designed 
 2. Optionally copy the `Tests` folder to `Assets/Tests/` for testing capabilities
 3. Unity will automatically detect and compile the assembly definitions
 
-See [UNITY_INTEGRATION.md](UNITY_INTEGRATION.md) for detailed integration instructions.
 
 ## Quick Start
 
